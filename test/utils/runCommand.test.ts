@@ -5,6 +5,18 @@ import { WorkspaceManager } from "@src/services/workspaceManager.js";
 import { createConnection } from "vscode-languageserver/node";
 import { getDoc } from "@test/helper.js";
 import { ExecException } from "child_process";
+import { chmodSync, mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import path from "node:path";
+
+const activationScriptDir = mkdtempSync(path.join(tmpdir(), "sals-test-"));
+const activationScriptPath = path.join(activationScriptDir, "activate");
+writeFileSync(
+  activationScriptPath,
+  'export VIRTUAL_ENV="/tmp/sals-test-venv"\n',
+  { encoding: "utf8" },
+);
+chmodSync(activationScriptPath, 0o755);
 
 describe("commandRunner", function () {
   const tests = [
@@ -58,7 +70,7 @@ describe("commandRunner", function () {
       stdout: "123",
       stderr: "",
       pythonInterpreterPath: "path-before-python/bin/python",
-      activationScript: `${process.env.VIRTUAL_ENV}/bin/activate`,
+      activationScript: activationScriptPath,
     },
   ];
 
