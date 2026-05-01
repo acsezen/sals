@@ -2,17 +2,21 @@
   "compilerOptions": {
     "allowJs": true,
     "baseUrl": ".",
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "outDir": "lib",
+    "outDir": "dist",
     "paths": {
-      "@src/*": ["./src/*"],
-      "@test/*": ["./test/*"]
+      "@src/*": ["./src/*"]
     },
     "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": true,
     "target": "ES2022"
   },
-  "exclude": ["node_modules", "out", "coverage"],
-  "extends": "../../tsconfig.base.json",
-  "include": ["src/**/*.ts", "test/**/*.ts", "*.ts"]
+  "exclude": ["node_modules", "out", "coverage", "dist"],
+  "include": ["src/**/*.ts", "tsup.config.ts"]
 }
