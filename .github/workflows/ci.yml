@@ -1,0 +1,46 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: pnpm
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Ansible toolchain
+        run: |
+          uv venv .venv
+          uv pip install --python .venv/bin/python ansible-core ansible-lint yamllint
+          echo "$PWD/.venv/bin" >> "$GITHUB_PATH"
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Run ALS tests without execution environments
+        run: pnpm run test-without-ee
+
+      - name: Validate standalone LSP startup
+        run: pnpm run validate-ls

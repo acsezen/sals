@@ -35,10 +35,14 @@
     "lsp"
   ],
   "scripts": {
-    "clean": "rimraf dist",
+    "clean": "rimraf dist out coverage",
     "build": "tsup --silent",
     "watch": "tsup --watch --silent",
-    "start": "node dist/cli.cjs --stdio"
+    "start": "node dist/cli.cjs --stdio",
+    "test": "vitest run",
+    "test-with-ee": "vitest run -t @ee",
+    "test-without-ee": "SKIP_PODMAN=1 SKIP_DOCKER=1 vitest run",
+    "validate-ls": "tsx test/validate-ls.ts"
   },
   "dependencies": {
     "@flatten-js/interval-tree": "^2.0.3",
@@ -58,8 +62,14 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.2",
+    "fuse.js": "^7.1.0",
     "rimraf": "^6.1.3",
+    "shell-quote": "^1.8.3",
+    "sinon": "^21.0.0",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3"
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.2",
+    "vscode-jsonrpc": "^8.2.1"
   }
 }

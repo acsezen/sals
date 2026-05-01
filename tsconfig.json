@@ -9,7 +9,8 @@
     "moduleResolution": "bundler",
     "outDir": "dist",
     "paths": {
-      "@src/*": ["./src/*"]
+      "@src/*": ["./src/*"],
+      "@test/*": ["./test/*"]
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
@@ -18,5 +19,5 @@
     "target": "ES2022"
   },
   "exclude": ["node_modules", "out", "coverage", "dist"],
-  "include": ["src/**/*.ts", "tsup.config.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "tsup.config.ts", "vitest.config.ts"]
 }
